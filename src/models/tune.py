@@ -12,9 +12,19 @@ def tune_model(
     min_accuracy: float = 0.75,
     n_trials: int = 30
 ):
+    """
+    Tune XGBoost hyperparameters using Optuna.
+
+    Objective:
+    - Maximize recall for churners (class=1)
+    - Enforce minimum accuracy constraint
+    """
+
+    # Handle class imbalance
     scale_pos_weight = (y == 0).sum() / (y == 1).sum()
 
     def objective(trial):
+        # Hyperparameter search space
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 300, 800),
             "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.2),
@@ -32,21 +42,23 @@ def tune_model(
         }
 
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-        recalls, accs = [], []
+        recalls, accuracies = [], []
 
-        for tr, val in cv.split(X, y):
+        # Cross-validation loop
+        for train_idx, val_idx in cv.split(X, y):
             model = XGBClassifier(**params)
-            model.fit(X.iloc[tr], y.iloc[tr])
+            model.fit(X.iloc[train_idx], y.iloc[train_idx])
 
-            proba = model.predict_proba(X.iloc[val])[:, 1]
+            proba = model.predict_proba(X.iloc[val_idx])[:, 1]
             preds = (proba >= threshold).astype(int)
 
-            recalls.append(recall_score(y.iloc[val], preds))
-            accs.append(accuracy_score(y.iloc[val], preds))
+            recalls.append(recall_score(y.iloc[val_idx], preds))
+            accuracies.append(accuracy_score(y.iloc[val_idx], preds))
 
         mean_recall = np.mean(recalls)
-        mean_acc = np.mean(accs)
+        mean_acc = np.mean(accuracies)
 
+        # Penalize models with low accuracy
         if mean_acc < min_accuracy:
             return mean_recall - (min_accuracy - mean_acc) * 2
 

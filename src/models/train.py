@@ -11,15 +11,23 @@ def train_model(
     target_col: str = "Exited",
     threshold: float = 0.3
 ):
+    """
+    Train final XGBoost model and log results to MLflow.
+    """
+
+    # Split features and target
     X = df.drop(columns=[target_col])
     y = df[target_col]
 
+    # Handle class imbalance
     scale_pos_weight = (y == 0).sum() / (y == 1).sum()
 
+    # Train / test split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, stratify=y, random_state=42
     )
 
+    # Final tuned model
     model = XGBClassifier(
         n_estimators=682,
         learning_rate=0.15,
@@ -37,12 +45,14 @@ def train_model(
     with mlflow.start_run():
         model.fit(X_train, y_train)
 
+        # Threshold-based predictions
         proba = model.predict_proba(X_test)[:, 1]
         preds = (proba >= threshold).astype(int)
 
         acc = accuracy_score(y_test, preds)
         rec = recall_score(y_test, preds)
 
+        # Log experiment data
         mlflow.log_params(model.get_params())
         mlflow.log_param("threshold", threshold)
         mlflow.log_metric("accuracy", acc)
