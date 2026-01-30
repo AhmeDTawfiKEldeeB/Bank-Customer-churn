@@ -29,11 +29,15 @@ def train_model(
 
     # Final tuned model
     model = XGBClassifier(
-        n_estimators=682,
-        learning_rate=0.15,
-        max_depth=8,
-        subsample=0.67,
-        colsample_bytree=0.78,
+        n_estimators=702,
+        learning_rate=0.08710825958109349,
+        max_depth=7,
+        subsample=0.8982473714059436,
+        colsample_bytree=0.6694400666869094,
+        min_child_weight=8,
+        gamma=0.514080137124345,
+        reg_alpha=0.44403106721449837,
+        reg_lambda=1.6250927290660933,
         scale_pos_weight=scale_pos_weight,
         random_state=42,
         n_jobs=-1,
