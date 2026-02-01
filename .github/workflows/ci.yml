@@ -23,7 +23,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: /home/ahmed/Ahmed/projects/Bank-Customer-churn/Dockerfile
+          file: Dockerfile
           tags: tefa121/customer-churn-prediction:latest
           push: true
           platforms: linux/amd64,linux/arm64
