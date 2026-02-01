@@ -9,6 +9,13 @@ Steps:
 5. Train final model
 6. Evaluate model
 """
+import sys
+import os
+
+# Add project root to PYTHONPATH
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(PROJECT_ROOT)
+
 
 from src.data.load_data import load_data
 from src.data.preprocess import preprocess_data
