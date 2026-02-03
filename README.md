@@ -1,20 +1,20 @@
-**Bank Customer Churn — Project Story & Technical Portfolio** ✨
+#  Bank Customer Churn Prediction - End 2 End ML project
 
 Hello — I’m Ahmed. Welcome to my end-to-end churn prediction project. I built this as a demonstration of practical ML engineering: clear data pipelines, tracked experiments, resilient serving, and a small demo UI for fast stakeholder testing.
 
-🎯 Quick wins (what recruiters care about)
+**🎯 Quick wins (what recruiters care about)**
 - ✅ Reproducible training pipeline with MLflow experiment tracking.
 - ✅ Served predictions from a lightweight FastAPI app with a Gradio demo UI.
 - ✅ Defensive inference: artifact-path flexibility and fallback preprocessing to avoid runtime failures.
 
-🧰 Tech stack
+**🧰 Tech stack**
 - Python, pandas, scikit-learn, XGBoost
 - MLflow (experiment tracking), Optuna (hyperparameter tuning)
 - joblib and XGBoost JSON (artifact formats)
 - FastAPI + Gradio (serving & demo UI)
 - Dockerfile included for containerization; `uvicorn` for running the app
 
-📚 What I built — short story you can tell in interviews
+**📚 What I built**
 
 • I engineered a reproducible pipeline: raw data → preprocessing → feature engineering → training → artifact export. This keeps training debuggable and reproducible.
 
@@ -65,19 +65,19 @@ curl -X POST http://localhost:8000/predict \
   -d '{"CreditScore":650,"Geography":"France","Gender":"Male","Age":35,"Tenure":5,"Balance":0.0,"NumOfProducts":1,"HasCrCard":1,"IsActiveMember":1,"EstimatedSalary":50000.0}'
 ```
 
-🚀 CI / CD & deployment recommendations (what I can implement next)
+**🚀 CI / CD & deployment recommendations**
 - CI: GitHub Actions to run linting, unit tests, and a smoke test that imports `src/serving/inference.py` and loads artifacts.
 - CD: Build Docker image (Dockerfile present) and push to registry; deploy with Kubernetes/ECS and add a model promotion flow (staging → canary → prod).
 - Monitoring: capture prediction rates and drift; integrate with Prometheus/Grafana and alert on unusual behavior.
 
-🤖 LLMops & explainability (optional extension)
+**🤖 LLMops & explainability**
 
 This repo focuses on tabular ML. To demonstrate LLMops skills I can add:
 - an LLM explainability endpoint to generate short text explanations for each prediction,
 - prompt/response logging, cost metrics, and safety checks,
 - CI gates for prompt outputs before release.
 
-💬 Interview talking points (copy/paste)
+**💬 Interview talking points** 
 - “I built a reproducible training pipeline and logged experiments with MLflow.”
 - “I made the inference layer defensive — it auto-falls back to local preprocessing when the saved preprocessor is incompatible.”
 - “I validated model parity between notebook experiments and serving to reduce demo surprises.”
@@ -166,14 +166,14 @@ curl -X POST http://localhost:8000/predict \
   -d '{"CreditScore":650,"Geography":"France","Gender":"Male","Age":35,"Tenure":5,"Balance":0.0,"NumOfProducts":1,"HasCrCard":1,"IsActiveMember":1,"EstimatedSalary":50000.0}'
 ```
 
-**CI / CD & Deployment (what I recommend and can set up)**
+**CI / CD & Deployment**
 
 - CI: GitHub Actions to run linting, unit tests, and a smoke test that imports `src/serving/inference.py` and loads artifacts. This prevents regressions in artifact loading and unpickle issues.
 - CD: Build a Docker image (Dockerfile already present) and publish to a registry (GitHub Container Registry / Docker Hub). Use a simple Kubernetes manifest / ECS task for deployment.
 - Promotion: add stages for model promotion: staging → canary → production. Automate artifact copying (from MLflow or storage) and schema checks before promotion.
 - Monitoring: add a lightweight endpoint to log prediction distribution and error rates; integrate with Prometheus + Grafana for metrics and alerts.
 
-**LLMops note (honest & practical)**
+**LLMops note**
 
 This project centers on supervised ML (tabular) and does not currently use LLMs. If you want to showcase LLMops skills to recruiters, here’s how I’d expand the repo:
 - Add an LLM service component (e.g., a prompt-engineering wrapper, caching, and instruction tuning) to run customer-support simulations.
@@ -182,17 +182,9 @@ This project centers on supervised ML (tabular) and does not currently use LLMs.
 
 I can add a small demo that integrates an LLM for explainability (e.g., generate a short natural-language explanation for why a customer is predicted to churn). Tell me if you want that.
 
-**Code analysis — concise takeaways you can quote in interviews**
+**Code analysis**
 - Robust artifact handling: the inference layer checks multiple artifact locations and gracefully falls back to local pipelines when unpickling fails. This shows defensive engineering.
 - Parity-first: preferring the notebook JSON model when present ensures the model used for manual verification (notebook) matches the served model — a pragmatic debugging/validation approach.
 - Practical engineering trade-offs: instead of forcing an exact reproducer of the original pickled preprocessor (which referenced a missing module), I added a deterministic local pipeline to guarantee inference can continue and avoid downtime.
 - Reproducibility: MLflow is used for tracking experiments and artifacts; running `scripts/pipeline.py` reproduces training artifacts.
 
-**What I can do next (pick one)**
-- Add a one-page CV-style README summary tailored for recruiters.
-- Add a GitHub Actions workflow that runs tests and builds the Docker image.
-- Add a short LLM-based explainability demo and show prompt logging (LLMops flow).
-
-If you want, I’ll now: implement a GitHub Actions CI skeleton, or add the recruiter-tailored one-page summary (shorter, punchier). Which would you prefer?
-
-File created: [README.md](README.md)
