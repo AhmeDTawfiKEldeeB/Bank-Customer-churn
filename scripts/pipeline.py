@@ -26,10 +26,8 @@ from src.models.evaluate import evaluate_model
 
 from sklearn.model_selection import train_test_split
 
-
-# ==========================
 # CONFIGURATION
-# ==========================
+
 DATA_PATH = "data/train.csv"
 TARGET_COL = "Exited"
 THRESHOLD = 0.3

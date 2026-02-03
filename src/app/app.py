@@ -38,36 +38,44 @@ def gradio_interface(
     CreditScore, Geography, Gender, Age, Tenure,
     Balance, NumOfProducts, HasCrCard, IsActiveMember, EstimatedSalary
 ):
-    payload = {
-        "CreditScore": int(CreditScore),
-        "Geography": Geography,
-        "Gender": Gender,
-        "Age": int(Age),
-        "Tenure": int(Tenure),
-        "Balance": float(Balance),
-        "NumOfProducts": int(NumOfProducts),
-        "HasCrCard": int(HasCrCard),
-        "IsActiveMember": int(IsActiveMember),
-        "EstimatedSalary": float(EstimatedSalary),
-    }
-    return str(predict(payload))
+    try:
+        payload = {
+            "CreditScore": int(CreditScore),
+            "Geography": Geography,
+            "Gender": Gender,
+            "Age": int(Age),
+            "Tenure": int(Tenure),
+            "Balance": float(Balance),
+            "NumOfProducts": int(NumOfProducts),
+            "HasCrCard": int(HasCrCard),
+            "IsActiveMember": int(IsActiveMember),
+            "EstimatedSalary": float(EstimatedSalary),
+        }
+        result = predict(payload)
+        prob_pct = result.get("probability", 0) * 100
+        label = result.get("label", "")
+        return f"{label}"
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 demo = gr.Interface(
     fn=gradio_interface,
     inputs=[
-        gr.Number(label="Credit Score"),
-        gr.Dropdown(["France","Spain","Germany"], label="Geography"),
-        gr.Dropdown(["Male","Female"], label="Gender"),
-        gr.Number(label="Age"),
-        gr.Number(label="Tenure (months)"),
-        gr.Number(label="Balance"),
-        gr.Number(label="NumOfProducts"),
-        gr.Number(label="HasCrCard (0/1)"),
-        gr.Number(label="IsActiveMember (0/1)"),
-        gr.Number(label="EstimatedSalary"),
+        gr.Number(label="Credit Score", value=0),
+        gr.Dropdown(["France", "Spain", "Germany"], label="Geography"),
+        gr.Dropdown(["Male", "Female"], label="Gender"),
+        gr.Number(label="Age", value=0),
+        gr.Number(label="Tenure (months)", value=0),
+        gr.Number(label="Balance", value=0.0),
+        gr.Number(label="NumOfProducts", value=0),
+        gr.Number(label="HasCrCard (0/1)", value=0),
+        gr.Number(label="IsActiveMember (0/1)", value=0),
+        gr.Number(label="EstimatedSalary", value=0),
     ],
-    outputs="text",
-    title="Bank Churn Predictor"
+    outputs=gr.Textbox(label="Prediction Result"),
+    title="Bank Churn Predictor",
+    description="Enter customer details to predict churn probability",
+    
 )
 
 app = gr.mount_gradio_app(app, demo, path="/ui")

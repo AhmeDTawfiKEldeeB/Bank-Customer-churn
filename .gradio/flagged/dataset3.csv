@@ -1,0 +1,5 @@
+Credit Score,Geography,Gender,Age,Tenure,Balance,NumOfProducts,HasCrCard (0/1),IsActiveMember (0/1),EstimatedSalary,output,timestamp
+0,France,Male,0,0,0,0,0,0,0,,2026-02-01 15:34:57.830675
+534,France,Male,44,10,114,535,0,0,424214,,2026-02-01 16:09:03.245988
+752,Germany,Male,38,10,121263.62,1,1,0,139431,,2026-02-01 16:16:09.817807
+0,France,Male,0,0,0,0,0,0,0,,2026-02-01 16:17:40.840136

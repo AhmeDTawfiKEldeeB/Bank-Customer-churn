@@ -1,0 +1,5 @@
+Credit Score,Geography,Gender,Age,Tenure,Balance,NumOfProducts,HasCrCard (0/1),IsActiveMember (0/1),EstimatedSalary,output,timestamp
+752,Germany,Male,38,10,121263.62,1,1,0,139431,,2026-02-01 15:19:17.614175
+752,Germany,Male,38,10,121263.62,1,1,0,139431,,2026-02-01 15:19:28.590893
+752,Germany,Male,38,10,121263.62,1,1,0,139431,,2026-02-01 15:19:48.356584
+752,Germany,Male,38,10,121263.62,1,1,0,139431,,2026-02-01 15:20:03.109621
